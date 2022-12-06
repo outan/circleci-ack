@@ -5,7 +5,7 @@ version: 2.1
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  say-hello:
+  build-docker-image:
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
@@ -15,12 +15,21 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Say hello"
-          command: "echo Hello, World!"
+          name: "acr login"
+          command: "docker login --username=$username -p=$password registry-intl.ap-northeast-1.aliyuncs.com"
+      - run:
+          name: "push to acr"
+          command: |
+            TAG=$CIRCLE_SHA1"
+            docker build -t registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG .
+            docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
+            docker push registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
-      - say-hello
+      - build-docker-image:
+          context:
+            - acr
