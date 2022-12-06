@@ -20,7 +20,7 @@ jobs:
       - run:
           name: "push to acr"
           command: |
-            TAG=$CIRCLE_SHA1"
+            TAG=$CIRCLE_SHA1
             docker build -t registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG .
             docker login -u $DOCKER_LOGIN -p $DOCKER_PASSWORD
             docker push registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG
