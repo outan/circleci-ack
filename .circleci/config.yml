@@ -2,6 +2,9 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 
+orbs:
+  slack: circleci/slack@4.12.0
+
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
@@ -26,7 +29,10 @@ jobs:
             TAG=$CIRCLE_SHA1
             docker build -t registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG .
             docker push registry-intl.ap-northeast-1.aliyuncs.com/denniswang/circleci_ack:$TAG
-
+      - slack/notify:
+                channel: C04DN6Z95V5 
+                event: pass 
+                template: basic_success_1 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
