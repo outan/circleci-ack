@@ -19,7 +19,7 @@ jobs:
       - checkout
       - setup_remote_docker:
           version: 20.10.14
-          docker_layer_caching: true 
+          docker_layer_caching: true
       - run:
           name: "acr login"
           command: "docker login --username=$username -p=$password registry-intl.ap-northeast-1.aliyuncs.com"
@@ -34,9 +34,8 @@ jobs:
       - image: cimg/base:stable
     steps:
       - slack/notify:
-                channel: C04DN6Z95V5 
-                event: pass 
-                template: basic_success_1 
+          event: pass
+          template: basic_success_1
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
