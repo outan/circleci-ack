@@ -41,3 +41,4 @@ workflows:
       - build-docker-image:
           context:
             - acr
+            - slack-oauth-token
