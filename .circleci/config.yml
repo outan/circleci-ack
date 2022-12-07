@@ -47,4 +47,4 @@ workflows:
             - acr
       - slack_notifications:
           context:
-            - slack-oauth-token
+            - slack_oauth_token
